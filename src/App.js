@@ -14,6 +14,25 @@ function App() {
   const Molson = brands.Molson;
   const Sleeman = brands.Sleeman;
 
+  const filterLabatt = isEmpty ? Labatt : outputLabatt;
+  const filterImports = isEmpty ? Imports : outputImports;
+  const filterMolson = isEmpty ? Molson : outputMolson;
+  const filterSleeman = isEmpty ? Sleeman : outputSleeman;
+
+  const removeColumn = (filterBrand, brand, outputBrand) => {
+    if (search.length > 0 && outputBrand.length == 0) {
+      return (null
+      );
+    }
+    return (
+      <div>
+        {brand}
+        {filterBrand.map((item) => (
+          <p>{item}</p>
+        ))}
+      </div>
+    );
+  };
   const updateSearch = (e) => {
     setSearch(e.target.value);
 
@@ -23,7 +42,6 @@ function App() {
       setIsEmpty(true);
     }
   };
-
 
   useEffect(() => {
     setOutputLabatt([]);
@@ -56,40 +74,15 @@ function App() {
     });
   }, [search]);
 
-  const filterLabatt = isEmpty ? Labatt : outputLabatt
-  const filterImports = isEmpty ? Imports : outputImports
-  const filterMolson = isEmpty ? Molson : outputMolson
-  const filterSleeman = isEmpty ? Sleeman : outputSleeman
-
   return (
     <div className="App">
       <input onChange={updateSearch} type="text" placeholder="enter brand" />
-      <h1 className="red">hi</h1>
+      <h1 className="red">Beer Store Brands</h1>
       <div className="flex">
-        <div>
-          Labatt
-          {filterLabatt.map((item) => (
-            <p>{item}</p>
-          ))}
-        </div>
-        <div>
-          Molson
-          {filterMolson.map((item) => (
-            <p>{item}</p>
-          ))}
-        </div>
-        <div>
-          Sleeman
-          {filterSleeman.map((item) => (
-            <p>{item}</p>
-          ))}
-        </div>
-        <div>
-          Imports
-          {filterImports.map((item) => (
-            <p>{item}</p>
-          ))}
-        </div>
+        {removeColumn(filterLabatt, "Labatt", outputLabatt)}
+        {removeColumn(filterMolson, "Molson", outputMolson)}
+        {removeColumn(filterSleeman, "Sleeman", outputSleeman)}
+        {removeColumn(filterImports, "Imports", outputImports)}
       </div>
     </div>
   );
