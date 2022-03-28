@@ -1,5 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 .red {
   color: red;
+  margin: 0 auto
 }
 
 .flex {
@@ -10,3 +15,20 @@
   font-family: 'Inter', sans-serif;
 }
 
+.center {
+  margin: 0 auto;
+  width: 50%
+}
+
+.centerText {
+  text-align: center;
+}
+
+.padding {
+  padding-right:  20px;
+}
+@media only screen and (max-width: 600px) {
+  .center {
+    width: 100%
+  }
+}

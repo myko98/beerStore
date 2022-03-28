@@ -21,11 +21,10 @@ function App() {
 
   const removeColumn = (filterBrand, brand, outputBrand) => {
     if (search.length > 0 && outputBrand.length == 0) {
-      return (null
-      );
+      return null;
     }
     return (
-      <div>
+      <div className="padding">
         {brand}
         {filterBrand.map((item) => (
           <p>{item}</p>
@@ -75,9 +74,11 @@ function App() {
   }, [search]);
 
   return (
-    <div className="App font">
-      <h1 className="red">Beer Store Brands</h1>
-      <input onChange={updateSearch} type="text" placeholder="enter brand" />
+    <div className="App font center">
+      <div className="centerText">
+        <h1 className="red">Beer Store Brands</h1>
+        <input onChange={updateSearch} type="text" placeholder="enter brand" />
+      </div>
       <div className="flex">
         {removeColumn(filterLabatt, "Labatt", outputLabatt)}
         {removeColumn(filterMolson, "Molson", outputMolson)}
