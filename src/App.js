@@ -75,9 +75,9 @@ function App() {
   }, [search]);
 
   return (
-    <div className="App">
-      <input onChange={updateSearch} type="text" placeholder="enter brand" />
+    <div className="App font">
       <h1 className="red">Beer Store Brands</h1>
+      <input onChange={updateSearch} type="text" placeholder="enter brand" />
       <div className="flex">
         {removeColumn(filterLabatt, "Labatt", outputLabatt)}
         {removeColumn(filterMolson, "Molson", outputMolson)}

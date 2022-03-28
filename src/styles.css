@@ -5,3 +5,8 @@
 .flex {
   display: flex;
 }
+
+.font {
+  font-family: 'Inter', sans-serif;
+}
+
