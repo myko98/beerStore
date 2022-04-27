@@ -179,4 +179,18 @@ const Sleeman = [
   "uc lager (upper canada)",
 ];
 
-export default { Labatt, Imports, Molson, Sleeman };
+const BrewerExpansion = [
+  'Amsterdam - Boneshaker IPA',
+  'Moosehead - James Ready',
+  'Moosehead - Cracked Canoe',
+  'Steam Whistle',
+  'Waterloo - Laker',
+  'Waterloo - PC',
+  'Waterloo - Landshark',
+  'Bangarang',
+  "Cameron's - Cosmic Ale",
+  'Flying Monkey',
+  'Lake of Bays',
+  'Muskoka'
+]
+export default { Labatt, Imports, Molson, Sleeman, BrewerExpansion };

@@ -1,5 +1,14 @@
 import brands from "./data/info";
 import { useState, useEffect } from "react";
+import {
+  Router,
+  Switch,
+  Route,
+  Routes,
+  Link,
+  BrowserRouter,
+} from "react-router-dom";
+import Fridge from "./routes/fridge";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -8,16 +17,40 @@ function App() {
   const [outputImports, setOutputImports] = useState([]);
   const [outputMolson, setOutputMolson] = useState([]);
   const [outputSleeman, setOutputSleeman] = useState([]);
+  const [outputBE, setOutputBE] = useState([]);
 
-  const Labatt = brands.Labatt;
-  const Imports = brands.Imports;
-  const Molson = brands.Molson;
-  const Sleeman = brands.Sleeman;
+  let Labatt = brands.Labatt;
+  let Imports = brands.Imports;
+  let Molson = brands.Molson;
+  let Sleeman = brands.Sleeman;
+  let BrewerExpansion = brands.BrewerExpansion;
+
+  let arrayOfBrands = [Labatt, Imports, Molson, Sleeman, BrewerExpansion];
+
+  const capitalize = (brand) => {
+    let capitalizeBrand = brand.map((drink) => {
+      let words = drink.split(" ");
+      return words
+        .map((word) => {
+          return word[0].toUpperCase() + word.substring(1);
+        })
+        .join(" ");
+    });
+    return capitalizeBrand;
+  };
+
+  arrayOfBrands = arrayOfBrands.map((brand) => capitalize(brand));
+  Labatt = arrayOfBrands[0];
+  Imports = arrayOfBrands[1];
+  Molson = arrayOfBrands[2];
+  Sleeman = arrayOfBrands[3];
+  BrewerExpansion = arrayOfBrands[4];
 
   const filterLabatt = isEmpty ? Labatt : outputLabatt;
   const filterImports = isEmpty ? Imports : outputImports;
   const filterMolson = isEmpty ? Molson : outputMolson;
   const filterSleeman = isEmpty ? Sleeman : outputSleeman;
+  const filterBE = isEmpty ? BrewerExpansion : outputBE;
 
   const removeColumn = (filterBrand, brand, outputBrand) => {
     if (search.length > 0 && outputBrand.length == 0) {
@@ -32,6 +65,7 @@ function App() {
       </div>
     );
   };
+
   const updateSearch = (e) => {
     setSearch(e.target.value);
 
@@ -47,6 +81,7 @@ function App() {
     setOutputImports([]);
     setOutputMolson([]);
     setOutputSleeman([]);
+    setOutputBE([]);
 
     Labatt.filter((beer) => {
       if (beer.toLowerCase().includes(search.toLowerCase())) {
@@ -71,21 +106,45 @@ function App() {
         setOutputSleeman((outputSleeman) => [...outputSleeman, beer]);
       }
     });
+
+    BrewerExpansion.filter((beer) => {
+      if (beer.toLowerCase().includes(search.toLowerCase())) {
+        setOutputBE((outputBE) => [...outputBE, beer]);
+      }
+    });
   }, [search]);
 
-  return (
-    <div className="App font center">
-      <div className="centerText">
-        <h1 className="red">Beer Store Brands</h1>
-        <input onChange={updateSearch} type="text" placeholder="enter brand" />
-      </div>
+  function Brands() {
+    return (
       <div className="flex">
         {removeColumn(filterLabatt, "Labatt", outputLabatt)}
         {removeColumn(filterMolson, "Molson", outputMolson)}
         {removeColumn(filterSleeman, "Sleeman", outputSleeman)}
         {removeColumn(filterImports, "Imports", outputImports)}
+        {removeColumn(filterBE, "Brewer Expansion", outputBE)}
       </div>
-    </div>
+    );
+  }
+  return (
+    <BrowserRouter>
+      <div className="App font center">
+        <div className="centerText">
+          <nav>
+            <h1 className="red">Beer Store Brands</h1>
+            <Link to="/fridge">Fridge</Link>
+          </nav>
+          <input
+            onChange={updateSearch}
+            type="text"
+            placeholder="enter brand"
+          />
+        </div>
+        <Routes>
+          <Route path="/" element={<Brands />} />
+          <Route path="fridge" element={<Fridge />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
