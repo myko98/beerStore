@@ -31,4 +31,9 @@
   .center {
     width: 100%
   }
+
+  .flex {
+    display: flex;
+    font-size: 2.5vw;
+  }
 }
