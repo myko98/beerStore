@@ -9,6 +9,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import Fridge from "./routes/fridge";
+import beerAxios from "./services/beerAxios";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -18,6 +19,7 @@ function App() {
   const [outputMolson, setOutputMolson] = useState([]);
   const [outputSleeman, setOutputSleeman] = useState([]);
   const [outputBE, setOutputBE] = useState([]);
+  const [fridge, setFridge] = useState([]);
 
   let Labatt = brands.Labatt;
   let Imports = brands.Imports;
@@ -76,6 +78,13 @@ function App() {
     }
   };
 
+  //get fridge info
+  useEffect(() => {
+    beerAxios.getAll().then((fridge) => {
+      setFridge(fridge);
+    });
+  }, []);
+
   useEffect(() => {
     setOutputLabatt([]);
     setOutputImports([]);
@@ -125,12 +134,13 @@ function App() {
       </div>
     );
   }
+
   return (
     <BrowserRouter>
       <div className="App font center">
         <div className="centerText">
           <nav>
-            <h1 className="red">Beer Store Brands</h1>
+            <Link to="/">Brands</Link>
             <Link to="/fridge">Fridge</Link>
           </nav>
           <input
@@ -141,7 +151,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Brands />} />
-          <Route path="fridge" element={<Fridge />} />
+          <Route path="fridge" element={<Fridge fridge={fridge} />} />
         </Routes>
       </div>
     </BrowserRouter>
