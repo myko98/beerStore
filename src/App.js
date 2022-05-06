@@ -20,6 +20,8 @@ function App() {
   const [outputSleeman, setOutputSleeman] = useState([]);
   const [outputBE, setOutputBE] = useState([]);
   const [fridge, setFridge] = useState([]);
+  const [addToFridge, setAddToFridge] = useState({});
+  const [updateBool, setUpdateBool] = useState(false)
 
   let Labatt = brands.Labatt;
   let Imports = brands.Imports;
@@ -79,10 +81,16 @@ function App() {
   };
 
   //get fridge info
+  //current set to [], but pretty sure it should be empty so that it will keep grabbing updated amounts for DB whenever it gets updated, will change later
   useEffect(() => {
-    beerAxios.getAll().then((fridge) => {
-      setFridge(fridge);
-    });
+    beerAxios
+      .getAll()
+      .then((fridge) => {
+        setFridge(fridge);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   useEffect(() => {
@@ -123,6 +131,32 @@ function App() {
     });
   }, [search]);
 
+  //updates beer DB whenever update values button is pressed
+  const add = async (event) => {
+    event.preventDefault();
+    
+    try {
+      await beerAxios.updateFridge(addToFridge)
+      let result = await beerAxios.getAll()
+      setFridge(result)
+      setAddToFridge({})
+    } catch(error) {
+      console.log(error)
+    }
+  };
+
+  const resetFridge = async (event) => {
+    event.preventDefault();
+    
+    try {
+      await beerAxios.resetFridge(addToFridge)
+      let result = await beerAxios.getAll()
+      setFridge(result)
+      setAddToFridge({})
+    } catch(error) {
+      console.log(error)
+    }
+  }
   function Brands() {
     return (
       <div className="flex">
@@ -151,7 +185,18 @@ function App() {
         </div>
         <Routes>
           <Route path="/" element={<Brands />} />
-          <Route path="fridge" element={<Fridge fridge={fridge} />} />
+          <Route
+            path="fridge"
+            element={
+              <Fridge
+                fridge={fridge}
+                add={add}
+                addToFridge={addToFridge}
+                setAddToFridge={setAddToFridge}
+                resetFridge={resetFridge}
+              />
+            }
+          />
         </Routes>
       </div>
     </BrowserRouter>
